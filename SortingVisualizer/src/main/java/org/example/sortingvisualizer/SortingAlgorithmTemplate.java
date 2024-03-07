@@ -2,8 +2,15 @@ package org.example.sortingvisualizer;
 
 import javafx.concurrent.Task;
 import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
+import org.example.sortingvisualizer.Interface.ISortUpdateListener;
 
 public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
+    protected ISortUpdateListener listener;
+
+    public SortingAlgorithmTemplate(ISortUpdateListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public final Task<Void> sort(int[] array) {
         return new Task<Void>() {
@@ -21,7 +28,6 @@ public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
             }
 
             private boolean validate(int[] array) {
-                // General validation logic for the inputted array
                 return array != null && array.length > 1;
             }
         };
@@ -35,19 +41,6 @@ public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
 
     protected void afterSort(int[] array) {
         // Optional: Override in subclasses if needed
-    }
-
-    /**
-     * Pauses the sorting thread for visualization purposes.
-     * @param milliseconds The number of milliseconds to sleep.
-     */
-    protected void sleepForVisualization(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            // Restore the interrupted status
-            Thread.currentThread().interrupt();
-        }
     }
 }
 
