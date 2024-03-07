@@ -1,26 +1,25 @@
 package org.example.sortingvisualizer;
 
-import javafx.concurrent.Task;
+import org.example.sortingvisualizer.Interface.ISortUpdateListener;
 
-public class BubbleSort implements ISortingAlgorithm {
+public class BubbleSort extends SortingAlgorithmTemplate {
+    public BubbleSort(ISortUpdateListener listener) {
+        super(listener);
+    }
+
     @Override
-    public Task<Void> sort(int[] array) {
-        return new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int i = 0; i < array.length - 1; i++) {
-                    for (int j = 0; j < array.length - i - 1; j++) {
-                        if (array[j] > array[j + 1]) {
-                            int temp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = temp;
-                            updateMessage("Swapped " + array[j] + " with " + array[j + 1]);
-                            Thread.sleep(10);
-                        }
-                    }
+    protected void doSort(int[] array) {
+        for (int i = 0; i < array.length - 1; i++) {
+            for (int j = 0; j < array.length - i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                    listener.onSwap(j, j + 1);
+                    sleep(10); // Set thread sleep time to modify animation
                 }
-                return null;
+                listener.onCompare(j, j + 1);
             }
-        };
+        }
     }
 }

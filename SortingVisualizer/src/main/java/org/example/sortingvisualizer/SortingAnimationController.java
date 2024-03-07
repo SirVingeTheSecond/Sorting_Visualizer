@@ -1,11 +1,14 @@
 package org.example.sortingvisualizer;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import org.example.sortingvisualizer.Interface.ISortUpdateListener;
+import org.example.sortingvisualizer.Utility.Sorter;
 
 
-public class SortingAnimationController {
+public class SortingAnimationController implements ISortUpdateListener {
 
     @FXML
     private BarChart<String, Number> barChart;
@@ -16,12 +19,12 @@ public class SortingAnimationController {
     @FXML
     public void initialize() {
         data = createShuffledArray(50);
-        sorter = new Sorter(barChart, new BubbleSort());
+        sorter = new Sorter(new BubbleSort(this));
         drawChart();
     }
 
     @FXML
-    private void handleSortButtonAction() {
+    public void handleSortButtonAction() {
         sorter.sort(data);
     }
 
@@ -47,5 +50,26 @@ public class SortingAnimationController {
         }
         barChart.getData().clear();
         barChart.getData().add(series);
+    }
+
+    private void updateBarChart(int index1, int index2) {
+        XYChart.Series<String, Number> series = barChart.getData().get(0);
+        XYChart.Data<String, Number> data1 = series.getData().get(index1);
+        XYChart.Data<String, Number> data2 = series.getData().get(index2);
+        Number temp = data1.getYValue();
+        data1.setYValue(data2.getYValue());
+        data2.setYValue(temp);
+    }
+
+    @Override
+    public void onSwap(int index1, int index2) {
+        Platform.runLater(() -> {
+            updateBarChart(index1, index2);
+        });
+    }
+
+    @Override
+    public void onCompare(int index1, int index2) {
+        // Optionally update the UI to reflect comparisons
     }
 }
