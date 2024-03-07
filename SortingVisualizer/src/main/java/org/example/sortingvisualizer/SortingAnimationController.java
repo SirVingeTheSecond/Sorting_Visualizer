@@ -32,7 +32,7 @@ public class SortingAnimationController implements ISortUpdateListener {
     @FXML
     public void initialize() {
         data = createShuffledArray(50);
-        sorter = new Sorter(new BubbleSort(this, sorter));
+        sorter = new Sorter(null); // Initialize sorter without a default algorithm
         sorter.setListener(this);
         drawChart();
         populateAlgorithmChoice();
@@ -40,7 +40,6 @@ public class SortingAnimationController implements ISortUpdateListener {
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sorter.setSortingSpeed(newValue.doubleValue());
         });
-
     }
 
     private void populateAlgorithmChoice() {
@@ -63,13 +62,13 @@ public class SortingAnimationController implements ISortUpdateListener {
             case "Bubble Sort":
                 sorter.setSortingAlgorithm(new BubbleSort(this, sorter));
                 break;
-//        case "Insertion Sort":
-//            sorter.setSortingAlgorithm(new InsertionSort(this));
-//            break;
-//        case "Merge Sort":
-//            sorter.setSortingAlgorithm(new MergeSort(this));
-//            break;
+            case "Insertion Sort":
+                sorter.setSortingAlgorithm(new InsertionSort(this, sorter));
+                break;
             // Add cases for other sorting algorithms
+            default:
+                System.err.println("Invalid algorithm selected.");
+                return;
         }
         currentSortingTask = sorter.sort(data);
     }
@@ -140,17 +139,13 @@ public class SortingAnimationController implements ISortUpdateListener {
     @Override
     public void onUpdate(int[] array) {
         Platform.runLater(() -> {
+            XYChart.Series<String, Number> series = barChart.getData().getFirst(); // Assuming only one series is used
 
-            barChart.getData().clear(); // Clear the previous state of the visualization
-
-            XYChart.Series<String, Number> series = new XYChart.Series<>(); // Create a new data series for the bar chart
-
-            // Populate the series with the array values
+            // Update the series with the new values without clearing
             for (int i = 0; i < array.length; i++) {
-                series.getData().add(new XYChart.Data<>(String.valueOf(i), array[i]));
+                XYChart.Data<String, Number> data = series.getData().get(i);
+                data.setYValue(array[i]);
             }
-
-            barChart.getData().add(series); // Add the series to the bar chart
 
             // Optional: Add styling/animations
         });
