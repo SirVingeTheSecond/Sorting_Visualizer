@@ -12,7 +12,7 @@ public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
     }
 
     @Override
-    public final Task<Void> sort(int[] array) {
+    public Task<Void> sort(int[] array) {
         return new Task<Void>() {
             @Override
             protected Void call() {

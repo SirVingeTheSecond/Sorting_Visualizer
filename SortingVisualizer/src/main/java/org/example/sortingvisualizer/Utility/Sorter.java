@@ -10,11 +10,10 @@ public class Sorter {
         this.algorithm = algorithm;
     }
 
-    public Task<Void> sort(int[] array) {
+    public void sort(int[] array) {
         Task<Void> sortTask = algorithm.sort(array);
         Thread sortThread = new Thread(sortTask);
         sortThread.setDaemon(true);
         sortThread.start();
-        return sortTask;
     }
 }
