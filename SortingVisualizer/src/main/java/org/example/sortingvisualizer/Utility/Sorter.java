@@ -1,9 +1,10 @@
-package org.example.sortingvisualizer;
+package org.example.sortingvisualizer.Utility;
 
 import javafx.application.Platform;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.concurrent.Task;
+import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
 
 public class Sorter {
     private BarChart<String, Number> barChart;

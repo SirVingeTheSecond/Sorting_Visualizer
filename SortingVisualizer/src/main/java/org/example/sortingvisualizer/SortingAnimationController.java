@@ -3,6 +3,7 @@ package org.example.sortingvisualizer;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import org.example.sortingvisualizer.Utility.Sorter;
 
 
 public class SortingAnimationController {
