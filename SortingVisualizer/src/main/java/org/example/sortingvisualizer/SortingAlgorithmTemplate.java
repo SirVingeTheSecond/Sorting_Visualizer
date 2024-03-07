@@ -21,7 +21,7 @@ public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
             }
 
             private boolean validate(int[] array) {
-                // General validation logic
+                // General validation logic for the inputted array
                 return array != null && array.length > 1;
             }
         };

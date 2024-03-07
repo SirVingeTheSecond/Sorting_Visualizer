@@ -15,13 +15,15 @@ public class Sorter {
         this.sortingAlgorithm = sortingAlgorithm;
     }
 
-    public void sort(int[] data) {
+    public Task<Void> sort(int[] data) {
         Task<Void> sortTask = sortingAlgorithm.sort(data);
-        sortTask.messageProperty().addListener((obs, oldMessage, newMessage) -> {
-            Platform.runLater(() -> drawChart(data));
-        });
+        sortTask.setOnSucceeded(e -> Platform.runLater(() -> updateUIAfterSort(data)));
+        new Thread(sortTask).start(); // Start the task on a new thread
+        return sortTask;
+    }
 
-        new Thread(sortTask).start();
+    private void updateUIAfterSort(int[] data) {
+        drawChart(data);
     }
 
     private void drawChart(int[] data) {
@@ -35,3 +37,4 @@ public class Sorter {
         });
     }
 }
+

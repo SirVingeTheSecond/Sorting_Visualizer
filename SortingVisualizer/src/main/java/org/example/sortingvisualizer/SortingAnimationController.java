@@ -1,5 +1,6 @@
 package org.example.sortingvisualizer;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -22,7 +23,7 @@ public class SortingAnimationController {
     }
 
     @FXML
-    private void handleSortButtonAction() {
+    public void handleSortButtonAction() {
         sorter.sort(data);
     }
 
