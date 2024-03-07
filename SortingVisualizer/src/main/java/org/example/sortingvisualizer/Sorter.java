@@ -3,32 +3,34 @@ package org.example.sortingvisualizer;
 import javafx.application.Platform;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.concurrent.Task;
 
 public class Sorter {
-    private int[] data;
-    private BarChart<String, Integer> barChart;
+    private BarChart<String, Number> barChart;
     private ISortingAlgorithm sortingAlgorithm;
 
-    public Sorter(BarChart<String, Integer> barChart, int[] data, ISortingAlgorithm sortingAlgorithm) {
+    public Sorter(BarChart<String, Number> barChart, ISortingAlgorithm sortingAlgorithm) {
         this.barChart = barChart;
-        this.data = data;
         this.sortingAlgorithm = sortingAlgorithm;
-        drawChart();
     }
 
-    public void sort() {
-        new Thread(() -> {
-            sortingAlgorithm.sort(data);
-            drawChart();
-        }).start();
+    public void sort(int[] data) {
+        Task<Void> sortTask = sortingAlgorithm.sort(data);
+        sortTask.messageProperty().addListener((obs, oldMessage, newMessage) -> {
+            Platform.runLater(() -> drawChart(data));
+        });
+
+        new Thread(sortTask).start();
     }
 
-    private void drawChart() {
-        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+    private void drawChart(int[] data) {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
         for (int i = 0; i < data.length; i++) {
-            series.getData().add(new XYChart.Data<>(String.valueOf(data[i]), data[i]));
+            series.getData().add(new XYChart.Data<>(String.valueOf(i), data[i]));
         }
-        Platform.runLater(() -> barChart.getData().add(series));
+        Platform.runLater(() -> {
+            barChart.getData().clear();
+            barChart.getData().add(series);
+        });
     }
 }
-

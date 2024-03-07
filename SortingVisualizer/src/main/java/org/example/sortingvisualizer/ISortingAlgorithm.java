@@ -1,5 +1,7 @@
 package org.example.sortingvisualizer;
 
+import javafx.concurrent.Task;
+
 public interface ISortingAlgorithm {
-    void sort(int[] array);
+    Task<Void> sort(int[] array);
 }
