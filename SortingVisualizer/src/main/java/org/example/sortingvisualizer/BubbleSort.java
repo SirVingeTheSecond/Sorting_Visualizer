@@ -16,6 +16,7 @@ public class BubbleSort extends SortingAlgorithmTemplate {
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
                     listener.onSwap(j, j + 1);
+                    sleep(10); // Set thread sleep time to modify animation
                 }
                 listener.onCompare(j, j + 1);
             }

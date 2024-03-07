@@ -1,8 +1,8 @@
 package org.example.sortingvisualizer;
 
 import javafx.concurrent.Task;
-import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
 import org.example.sortingvisualizer.Interface.ISortUpdateListener;
+import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
 
 public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
     protected ISortUpdateListener listener;
@@ -42,5 +42,14 @@ public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
     protected void afterSort(int[] array) {
         // Optional: Override in subclasses if needed
     }
+
+    protected void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
 }
 
