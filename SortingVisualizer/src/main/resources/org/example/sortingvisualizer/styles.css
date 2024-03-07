@@ -1,0 +1,50 @@
+/* styles.css */
+
+.main-container {
+    -fx-padding: 20px;
+}
+
+.top-container {
+    -fx-spacing: 20px;
+}
+
+.bottom-container {
+    -fx-spacing: 20px;
+    -fx-padding: 10px;
+}
+
+.action-button {
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+.action-button:hover {
+    -fx-background-color: #0056b3;
+}
+
+.slider {
+    -fx-padding: 5px 0;
+}
+
+.choice-box {
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+}
+
+.label-text {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.bar-chart .chart-bar {
+    -fx-bar-fill: #007bff;
+}
+
+.bar-chart .chart-bar:hover {
+    -fx-bar-fill: #0056b3;
+}

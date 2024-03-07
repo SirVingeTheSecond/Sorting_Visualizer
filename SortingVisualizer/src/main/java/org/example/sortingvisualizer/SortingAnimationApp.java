@@ -11,7 +11,12 @@ public class SortingAnimationApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/org/example/sortingvisualizer/SortingAnimation.fxml"));
         primaryStage.setTitle("Sorting Animation");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        Scene scene = new Scene(root, 800, 600);
+
+        // Add the CSS stylesheet to the scene
+        scene.getStylesheets().add(getClass().getResource("/org/example/sortingvisualizer/styles.css").toExternalForm());
+
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

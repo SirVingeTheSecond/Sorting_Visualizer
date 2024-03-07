@@ -40,6 +40,12 @@ public class SortingAnimationController implements ISortUpdateListener {
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sorter.setSortingSpeed(newValue.doubleValue());
         });
+
+        arraySizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int newSize = newValue.intValue();
+            data = createShuffledArray(newSize);
+            drawChart();
+        });
     }
 
     private void populateAlgorithmChoice() {
@@ -73,22 +79,6 @@ public class SortingAnimationController implements ISortUpdateListener {
         currentSortingTask = sorter.sort(data);
     }
 
-    @FXML
-    public void stopSorting() {
-        if (currentSortingTask != null) {
-            currentSortingTask.cancel();
-        }
-    }
-
-    @FXML
-    public void resetArray() {
-        if (currentSortingTask != null && currentSortingTask.isRunning()) {
-            return; // It's not safe to reset the array while sorting
-        }
-        data = createShuffledArray(data.length);
-        drawChart();
-    }
-
     private int[] createShuffledArray(int size) {
         int[] array = new int[size];
         for (int i = 0; i < size; i++) {
@@ -104,6 +94,23 @@ public class SortingAnimationController implements ISortUpdateListener {
         return array;
     }
 
+    @FXML
+    public void stopSorting() {
+        if (currentSortingTask != null) {
+            currentSortingTask.cancel();
+        }
+    }
+
+    @FXML
+    public void resetArray() {
+        if (currentSortingTask != null && currentSortingTask.isRunning()) {
+            return; // It's not safe to reset the array while sorting
+        }
+        int newSize = (int) arraySizeSlider.getValue();
+        data = createShuffledArray(newSize);
+        drawChart();
+    }
+
     private void drawChart() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         for (int i = 0; i < data.length; i++) {
@@ -111,6 +118,14 @@ public class SortingAnimationController implements ISortUpdateListener {
         }
         barChart.getData().clear();
         barChart.getData().add(series);
+
+        // Update the X-axis labels
+        for (int i = 0; i < barChart.getData().size(); i++) {
+            for (int j = 0; j < barChart.getData().get(i).getData().size(); j++) {
+                XYChart.Data<String, Number> dataPoint = barChart.getData().get(i).getData().get(j);
+                dataPoint.setXValue(String.valueOf(j));
+            }
+        }
     }
 
     private void updateBarChart(int index1, int index2) {
