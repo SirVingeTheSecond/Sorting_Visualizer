@@ -7,10 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class SortingAnimationApp extends Application {
-
     @Override
-    public void start(Stage primaryStage) {
-        Parent root = FXMLLoader.load(getClass().getResource("SortingAnimation.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/org/example/sortingvisualizer/SortingAnimation.fxml"));
         primaryStage.setTitle("Sorting Animation");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
