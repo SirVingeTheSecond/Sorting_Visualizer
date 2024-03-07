@@ -19,6 +19,7 @@ public interface ISortingAlgorithm {
      * Sorts the given array in place.
      *
      * @param array the array to be sorted
+     * @param listener the listener to receive update notifications
      * @return a Task representing the sorting operation
      */
     Task<Void> sort(int[] array);

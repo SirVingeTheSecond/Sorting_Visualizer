@@ -1,18 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sortingvisualizer.SortingAnimationController">
-  <BarChart fx:id="barChart" animated="false">
-    <xAxis>
-      <CategoryAxis label="Index" />
-    </xAxis>
-    <yAxis>
-      <NumberAxis label="Value" />
-    </yAxis>
-  </BarChart>
-  <Button text="Sort" onAction="#handleSortButtonAction"/>
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.sortingvisualizer.SortingAnimationController" prefWidth="800" prefHeight="600">
+
+  <!-- Top Area -->
+  <top>
+    <HBox spacing="10" alignment="CENTER">
+      <Button fx:id="startButton" text="Start" onAction="#startSorting"/>
+      <Button fx:id="stopButton" text="Stop" onAction="#stopSorting"/>
+      <Button fx:id="resetButton" text="Reset" onAction="#resetArray"/>
+      <Label text="Speed:"/>
+      <Slider fx:id="speedSlider" min="1" max="100" value="50"/>
+      <Label text="Algorithm:"/>
+      <ChoiceBox fx:id="algorithmChoice" prefWidth="150"/>
+      <Label text="Array Size:"/>
+      <Slider fx:id="arraySizeSlider" min="10" max="100" value="50"/>
+    </HBox>
+  </top>
+
+  <!-- Center Area -->
+  <center>
+    <VBox alignment="CENTER">
+      <BarChart fx:id="barChart" prefWidth="600" prefHeight="400">
+        <xAxis>
+          <CategoryAxis fx:id="categoryAxis" label="Index"/>
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="numberAxis" label="Value"/>
+        </yAxis>
+      </BarChart>
+    </VBox>
+  </center>
+
+  <!-- Bottom Area -->
+  <bottom>
+    <HBox spacing="10" alignment="CENTER">
+      <Label fx:id="algorithmLabel" text="Algorithm:"/>
+      <Label fx:id="arraySizeLabel" text="Array Size:"/>
+      <Label fx:id="sortingTimeLabel" text="Sorting Time:"/>
+      <Label fx:id="comparisonLabel" text="Comparisons:"/>
+      <Label fx:id="swapLabel" text="Swaps:"/>
+    </HBox>
+  </bottom>
+</BorderPane>

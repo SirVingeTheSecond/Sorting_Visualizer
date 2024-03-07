@@ -2,10 +2,11 @@ package org.example.sortingvisualizer.SortingAlgorithms;
 
 import org.example.sortingvisualizer.Interface.ISortUpdateListener;
 import org.example.sortingvisualizer.SortingAlgorithmTemplate;
+import org.example.sortingvisualizer.Utility.Sorter;
 
 public class BubbleSort extends SortingAlgorithmTemplate {
-    public BubbleSort(ISortUpdateListener listener) {
-        super(listener);
+    public BubbleSort(ISortUpdateListener listener, Sorter sorter) {
+        super(listener, sorter);
     }
 
     @Override
@@ -17,10 +18,11 @@ public class BubbleSort extends SortingAlgorithmTemplate {
                     array[j] = array[j + 1];
                     array[j + 1] = tmp;
                     listener.onSwap(j, j + 1);
-                    sleep(10); // Set thread sleep time to modify animation
+                    sleep(Math.max(1, (long) (1000 / sorter.getSortingSpeed()))); // Make sure the animation duration is at least 1 ms.
                 }
                 listener.onCompare(j, j + 1);
             }
         }
     }
+
 }

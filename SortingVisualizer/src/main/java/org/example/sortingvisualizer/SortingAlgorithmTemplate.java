@@ -3,17 +3,20 @@ package org.example.sortingvisualizer;
 import javafx.concurrent.Task;
 import org.example.sortingvisualizer.Interface.ISortUpdateListener;
 import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
+import org.example.sortingvisualizer.Utility.Sorter;
 
 public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
     protected ISortUpdateListener listener;
+    protected Sorter sorter;
 
-    public SortingAlgorithmTemplate(ISortUpdateListener listener) {
+    public SortingAlgorithmTemplate(ISortUpdateListener listener, Sorter sorter) {
         this.listener = listener;
+        this.sorter = sorter;
     }
 
     @Override
     public Task<Void> sort(int[] array) {
-        return new Task<Void>() {
+        return new Task<>() {
             @Override
             protected Void call() {
                 if (!validate(array)) {
@@ -50,6 +53,4 @@ public abstract class SortingAlgorithmTemplate implements ISortingAlgorithm {
             Thread.currentThread().interrupt();
         }
     }
-
 }
-
