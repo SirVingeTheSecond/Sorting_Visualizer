@@ -8,6 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.concurrent.Task;
 import org.example.sortingvisualizer.Interface.ISortUpdateListener;
+import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
 import org.example.sortingvisualizer.Utility.Sorter;
 import org.example.sortingvisualizer.SortingAlgorithms.*;
 
@@ -49,8 +50,7 @@ public class SortingAnimationController implements ISortUpdateListener {
     }
 
     private void populateAlgorithmChoice() {
-        algorithmChoice.getItems().addAll("Bubble Sort", "Insertion Sort", "Merge Sort");
-        // Add more sorting algorithms to the choice box as needed
+        algorithmChoice.getItems().addAll(SortingAlgorithmFactory.getAvailableAlgorithms());
     }
 
     @FXML
@@ -60,22 +60,12 @@ public class SortingAnimationController implements ISortUpdateListener {
         }
         String selectedAlgorithm = algorithmChoice.getValue();
         if (selectedAlgorithm == null) {
-            // Handle the case where no algorithm is selected
             System.err.println("Please select an algorithm.");
             return;
         }
-        switch (selectedAlgorithm) {
-            case "Bubble Sort":
-                sorter.setSortingAlgorithm(new BubbleSort(this, sorter));
-                break;
-            case "Insertion Sort":
-                sorter.setSortingAlgorithm(new InsertionSort(this, sorter));
-                break;
-            // Add cases for other sorting algorithms
-            default:
-                System.err.println("Invalid algorithm selected.");
-                return;
-        }
+
+        ISortingAlgorithm algorithm = SortingAlgorithmFactory.createAlgorithm(selectedAlgorithm, this, sorter);
+        sorter.setSortingAlgorithm(algorithm);
         currentSortingTask = sorter.sort(data);
     }
 
