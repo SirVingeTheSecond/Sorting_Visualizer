@@ -6,11 +6,11 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.concurrent.Task;
 import org.example.sortingvisualizer.Interface.ISortUpdateListener;
 import org.example.sortingvisualizer.Interface.ISortingAlgorithm;
 import org.example.sortingvisualizer.Utility.Sorter;
-import org.example.sortingvisualizer.SortingAlgorithms.*;
 
 public class SortingAnimationController implements ISortUpdateListener {
 
@@ -24,7 +24,7 @@ public class SortingAnimationController implements ISortUpdateListener {
     private ChoiceBox<String> algorithmChoice;
 
     @FXML
-    private Slider arraySizeSlider;
+    private TextField arraySizeInput;
 
     private int[] data;
     private Sorter sorter;
@@ -40,12 +40,6 @@ public class SortingAnimationController implements ISortUpdateListener {
 
         speedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             sorter.setSortingSpeed(newValue.doubleValue());
-        });
-
-        arraySizeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            int newSize = newValue.intValue();
-            data = createShuffledArray(newSize);
-            drawChart();
         });
     }
 
@@ -96,9 +90,22 @@ public class SortingAnimationController implements ISortUpdateListener {
         if (currentSortingTask != null && currentSortingTask.isRunning()) {
             return; // It's not safe to reset the array while sorting
         }
-        int newSize = (int) arraySizeSlider.getValue();
+        updateArraySize();
+    }
+
+    @FXML
+    public void updateArraySize() {
+        if (currentSortingTask != null && currentSortingTask.isRunning()) {
+            return; // It's not safe to update array size while sorting
+        }
+        int newSize = Integer.parseInt(arraySizeInput.getText());
         data = createShuffledArray(newSize);
         drawChart();
+
+        // Force a layout update to refresh the chart
+        barChart.requestLayout();
+
+        arraySizeInput.getParent().requestFocus();
     }
 
     private void drawChart() {
